@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"
 const Notes = (props) => {
     const context = useContext(notesContext)
     const { notes, getNotes, editNote } = context;
+    const { showAlert, mode, setName } = props;
     let navigate = useNavigate();
     useEffect(() => {
         async function fetchdata() {
@@ -20,7 +21,7 @@ const Notes = (props) => {
             });
             const json = await response.json();
             console.log(json.name);
-            props.setName(json.name);
+            setName(json.name);
         }
         fetchdata();
         if (localStorage.getItem("token")) {
@@ -52,7 +53,7 @@ const Notes = (props) => {
         console.log("Updating the note...", note)
         editNote(note.etitle, note.edescription, note.etag, note.id)
         // e.preventDefault();
-        props.showAlert("Updated Succesfully", "success");
+        showAlert(" Note Updated Succesfully", "success");
         ref2.current.click();
 
     }
@@ -103,7 +104,7 @@ const Notes = (props) => {
                 <h2>Your notes</h2>
                 {notes.length === 0 && <div className='container'> No notes to display</div>}
                 {notes.map((currentnote) => {
-                    return <NoteItem key={currentnote._id} updateNote={updateNote} note={currentnote} showAlert={props.showAlert} mode={props.mode} />
+                    return <NoteItem key={currentnote._id} updateNote={updateNote} note={currentnote} showAlert={showAlert} mode={mode} />
 
                 })}
             </div>
