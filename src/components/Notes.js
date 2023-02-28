@@ -1,22 +1,110 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import notesContext from "../context/notes/NoteContext"
 import AddNote from './AddNote';
 import NoteItem from './NoteItem';
+import { useNavigate } from "react-router-dom"
 
-const Notes = () => {
+const Notes = (props) => {
     const context = useContext(notesContext)
-    const { notes, getNotes } = context;
-
+    const { notes, getNotes, editNote } = context;
+    let navigate = useNavigate();
     useEffect(() => {
-        getNotes();
+        async function fetchdata() {
+            const response = await fetch("http://localhost:3000/api/auth/getuser", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': localStorage.getItem("token")
+
+                },
+            });
+            const json = await response.json();
+            console.log(json.name);
+            props.setName(json.name);
+        }
+        fetchdata();
+        if (localStorage.getItem("token")) {
+            getNotes();
+        }
+        else {
+            navigate("/login");
+        }
+
+
+
     }, [])
+
+    const [note, setNote] = useState({ id: "", etitle: "", edescription: "", etag: "" })
+
+    const ref = useRef(null);
+    const ref2 = useRef(null);
+    const updateNote = (currentNote) => {
+        ref.current.click();
+        setNote({ id: currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag })
+    }
+
+    const changeHandler = (e) => {
+        setNote({ ...note, [e.target.name]: e.target.value })
+
+    }
+
+    const submitHandler = (e) => {
+        console.log("Updating the note...", note)
+        editNote(note.etitle, note.edescription, note.etag, note.id)
+        // e.preventDefault();
+        props.showAlert("Updated Succesfully", "success");
+        ref2.current.click();
+
+    }
     return (
         <>
             <AddNote />
-            <div className='row my-3 mx-3 '>
+            <button type="button" ref={ref} className="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModal">
+                Launch demo modal
+            </button>
+
+
+            <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <form className='my-3'>
+                                <div className="mb-3">
+                                    <label htmlFor="etitle" className="form-label">Title</label>
+                                    <input type="text" className="form-control" id="etitle" aria-describedby="emailHelp" name="etitle" onChange={changeHandler} value={note.etitle} />
+
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="edescription" className="form-label">Description</label>
+                                    <input type="text" value={note.edescription} className="form-control" id="edescription" name="edescription" onChange={changeHandler} />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="etag" className="form-label">Tag</label>
+                                    <input type="text" value={note.etag} className="form-control" id="etag" name="etag" onChange={changeHandler} />
+                                </div>
+
+                            </form>
+                        </div>
+                        <div className="modal-footer">
+
+                            <button type="button" ref={ref2} className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" disabled={note.edescription.length < 5 || note.etitle.length < 5} onClick={submitHandler} className="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className='row my-5 mx-3 container'>
                 <h2>Your notes</h2>
-                {notes.map((note) => {
-                    return <NoteItem note={note} />
+                {notes.length === 0 && <div className='container'> No notes to display</div>}
+                {notes.map((currentnote) => {
+                    return <NoteItem key={currentnote._id} updateNote={updateNote} note={currentnote} showAlert={props.showAlert} mode={props.mode} />
+
                 })}
             </div>
         </>

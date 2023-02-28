@@ -1,16 +1,21 @@
 import React, { useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
-const Navbar = () => {
+const Navbar = (props) => {
     let location = useLocation();
     useEffect(() => {
         console.log(location.pathname)
     }, [location]);
+    let navigate = useNavigate();
+    const handleLogout = async () => {
+        localStorage.removeItem("token");
+        navigate("/login");
+    }
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
-                    <Link className="navbar-brand" to="/">Navbar</Link>
+                    <Link className="navbar-brand" to="/home">iNotebook</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -23,10 +28,16 @@ const Navbar = () => {
                                 <Link className={`nav-link ${location.pathname}==="/about"?"active:""`} to="/about">About</Link>
                             </li>
                         </ul>
-                        <form className="d-flex" role="search">
-                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-outline-success" type="submit">Search</button>
-                        </form>
+
+
+                        <div className={`form-check form-switch text-${props.mode === 'light' ? 'light' : 'light'}`}>
+                            <input className="form-check-input" onClick={props.toggleMode} type="checkbox" role="switch" id="flexSwitchCheckDefault" aria-checked="false" />
+                            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Enable dark mode</label>
+                        </div>
+                        {!localStorage.getItem("token") ? <form className="d-flex" role="search">
+                            <Link className="btn btn-primary mx-1" to="/login" role="button" aria-disabled="true">Login</Link >
+                            <Link className="btn btn-primary mx-1" to="/signup" role="button" aria-disabled="true">Signup</Link >
+                        </form> : <div> <i style={{ filter: "invert(1)" }} className="fa-solid fa-user ml-2"></i> <span className='mr-4 ml-1' style={{ color: "white" }}>{props.name}</span> <button className='btn btn-primary' onClick={handleLogout}> Logout</button> </div>}
                     </div>
                 </div>
             </nav>
