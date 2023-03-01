@@ -1,6 +1,6 @@
 import './App.css';
 import {
-  BrowserRouter as Router,
+  HashRouter,
   Route,
   Routes
 } from "react-router-dom";
@@ -49,7 +49,7 @@ function App() {
   return (
     <div className="App">
       <NoteState>
-        <Router>
+        <HashRouter>
           <Navbar name={name} toggleMode={toggleMode} mode={mode} />
           <Alert alert={alert} />
           <Routes>
@@ -60,7 +60,7 @@ function App() {
             <Route exact path='/signup' element={<Signup showAlert={showAlert} setName={setName} />} />
 
           </Routes>
-        </Router>
+        </HashRouter>
       </NoteState>
     </div>
   );
