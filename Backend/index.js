@@ -4,6 +4,12 @@ const port = 3000;
 var cors = require('cors')
 const connectToMongo = require("./db.js");
 
+app.use((req, res, next) => {
+    res.append('Access-Control-Allow-Origin', "https://inotebook-gaurav.netlify.app/");
+    res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.append('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
 app.use(express.json());
 
 app.use(cors())
