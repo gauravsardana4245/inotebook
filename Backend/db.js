@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mongoURI = "mongodb://localhost:27017/inotebook";
+const mongoURI = "mongodb+srv://Gaurav:blankspace@cluster0.xhef3ce.mongodb.net/?retryWrites=true&w=majority&ssl=true";
 mongoose.set('strictQuery', true);
 const connectToMongo = () => {
     mongoose.connect(mongoURI, () => {
