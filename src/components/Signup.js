@@ -34,16 +34,21 @@ const Signup = (props) => {
         }
     }
     return (
-        <div>
-            <h2 className='my-2'>Create an account to start using iNotebook</h2>
+        <div className='container'>
+            <h2 className='my-2 mb-4'>Create an account to start using iNotebook</h2>
             <form onSubmit={onSubmit}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Name</label>
                     <input type="text" className="form-control" id="name" aria-describedby="emailHelp" name='name' onChange={onChange} />
-
+                </div>
+                <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
                     <input type="email" className="form-control" id="email" aria-describedby="emailHelp" name='email' onChange={onChange} />
 
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="dob" className="form-label">Date of birth</label>
+                    <input type="date" className="form-control" id="dob" name='dob' onChange={onChange} />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>
@@ -53,7 +58,8 @@ const Signup = (props) => {
                     <label htmlFor="cpassword" className="form-label">Confrrm Password</label>
                     <input type="password" className="form-control" id="cpassword" name='cpassword' onChange={onChange} minLength={5} />
                 </div>
-                <button type="submit" className="btn btn-primary" >Submit</button>
+                <button type="submit" className="btn btn-primary my-2" >Sign up</button>
+                {/* <div className='my-2'> Already have an account? <Link className='text-decoration-none' to="/login">Login</Link></div> */}
             </form>
         </div>
     )

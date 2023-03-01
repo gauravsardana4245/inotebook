@@ -10,22 +10,22 @@ const Notes = (props) => {
     const { showAlert, mode, setName } = props;
     let navigate = useNavigate();
     useEffect(() => {
-        async function fetchdata() {
-            const response = await fetch("http://localhost:3000/api/auth/getuser", {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'auth-token': localStorage.getItem("token")
-
-                },
-            });
-            const json = await response.json();
-            console.log(json.name);
-            setName(json.name);
-        }
-        fetchdata();
         if (localStorage.getItem("token")) {
             getNotes();
+            async function fetchdata() {
+                const response = await fetch("http://localhost:3000/api/auth/getuser", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'auth-token': localStorage.getItem("token")
+
+                    },
+                });
+                const json = await response.json();
+                console.log(json.name);
+                setName(json.name);
+            }
+            fetchdata();
         }
         else {
             navigate("/login");
@@ -104,7 +104,7 @@ const Notes = (props) => {
                 <h2>Your notes</h2>
                 {notes.length === 0 && <div className='container'> No notes to display</div>}
                 {notes.map((currentnote) => {
-                    return <NoteItem key={currentnote._id} updateNote={updateNote} note={currentnote} showAlert={showAlert} mode={mode} />
+                    return <NoteItem key={Math.random()} updateNote={updateNote} note={currentnote} showAlert={showAlert} mode={mode} />
 
                 })}
             </div>

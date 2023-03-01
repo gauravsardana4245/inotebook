@@ -33,7 +33,12 @@ const NoteState = (props) => {
         });
         const json = await response.json();
         const note = json;
-        note._id = json._id;
+        // const newNote = {
+        //     title: note.title,
+        //     description: note.description,
+        //     tag: note.tag
+        // }
+
         setNotes(notes.concat(note));
     }
 

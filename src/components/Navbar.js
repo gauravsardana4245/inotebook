@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import logo from "../img/note.png"
 
+// const logoStyle = {
+//     fontSize: "24px",
+//     height: "50px",
+//     width: "50px"
+// }
 const Navbar = (props) => {
     let location = useLocation();
     useEffect(() => {
@@ -15,6 +21,7 @@ const Navbar = (props) => {
         <div>
             <nav className={`navbar navbar-expand-lg bg-${props.mode === 'light' ? 'light' : 'dark'} `}>
                 <div className={`container-fluid`}>
+                    {/* <img className='mr-2' style={logoStyle} src={logo} alt="" /> */}
                     <Link className={`navbar-brand text-${props.mode === 'light' ? 'dark' : 'light'} `} to="/">iNotebook</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
@@ -24,9 +31,9 @@ const Navbar = (props) => {
                             <li className="nav-item">
                                 <Link className={`nav-link text-${props.mode === 'light' ? 'dark' : 'light'} ${location.pathname}==="/home"?"active:""`} aria-current="page" to="/home">Home</Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link className={`nav-link text-${props.mode === 'light' ? 'dark' : 'light'} ${location.pathname}==="/about"?"active:""`} to="/about">About</Link>
-                            </li>
+                            </li> */}
                         </ul>
 
 
