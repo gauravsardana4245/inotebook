@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import Spinner from './Spinner';
 
 const Signup = (props) => {
     const [credentials, setCredentials] = useState({ name: "", email: "", password: "", cpassword: "" });
-
+    const [loading, setLoading] = useState(false);
     const onChange = async (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
     }
@@ -11,9 +12,10 @@ const Signup = (props) => {
     let navigate = useNavigate();
 
     const onSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault();
         const { name, email, password } = credentials;
-        const response = await fetch("http://localhost:3000/api/auth/createuser", {
+        const response = await fetch("https://inotebook-backend-gaurav-1.onrender.com/api/auth/createuser", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -24,12 +26,14 @@ const Signup = (props) => {
         const json = await response.json();
         console.log(json);
         if (json.success) {
+            setLoading(false);
             localStorage.setItem("token", json.authtoken);
             props.setName(json.name);
             navigate('/');
             props.showAlert("Signed up successfully", "success");
         }
         else {
+            setLoading(false);
             props.showAlert("Invalid credentials", "danger")
         }
     }
@@ -59,6 +63,7 @@ const Signup = (props) => {
                     <input type="password" className="form-control" id="cpassword" name='cpassword' onChange={onChange} minLength={5} />
                 </div>
                 <button type="submit" className="btn btn-primary my-2" >Sign up</button>
+                {loading && <Spinner />}
                 {/* <div className='my-2'> Already have an account? <Link className='text-decoration-none' to="/login">Login</Link></div> */}
             </form>
         </div>

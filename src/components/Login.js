@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from "react-router-dom";
+import Spinner from './Spinner';
 
 const Login = (props) => {
     const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -7,11 +8,13 @@ const Login = (props) => {
     const onChange = async (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value });
     }
+    const [loading, setLoading] = useState(false);
 
     let navigate = useNavigate();
     const onSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault();
-        const response = await fetch("http://localhost:3000/api/auth/login", {
+        const response = await fetch("https://inotebook-backend-gaurav-1.onrender.com/api/auth/login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -22,6 +25,7 @@ const Login = (props) => {
         const json = await response.json();
         console.log(json);
         if (json.success) {
+            setLoading(false);
             localStorage.setItem("token", json.authtoken);
             props.setName(json.name);
             console.log(json.name);
@@ -29,7 +33,8 @@ const Login = (props) => {
             props.showAlert("Logged in Succesfully", "success");
         }
         else {
-            props.showAlert("Invalid details", "danger")
+            setLoading(false);
+            props.showAlert("Invalid details", "danger");
         }
     }
     return (
@@ -47,6 +52,7 @@ const Login = (props) => {
                     <input type="password" className="form-control" id="password" name='password' onChange={onChange} />
                 </div>
                 <button type="submit" className="btn btn-primary" >Login</button>
+                {loading && <Spinner />}
                 <div className='my-2'> Doesn't have an account? <Link className='text-decoration-none' to="/signup">Click here</Link> to Sign up! </div>
             </form>
         </div>

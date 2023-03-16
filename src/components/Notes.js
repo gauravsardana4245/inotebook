@@ -13,7 +13,7 @@ const Notes = (props) => {
         if (localStorage.getItem("token")) {
             getNotes();
             async function fetchdata() {
-                const response = await fetch("http://localhost:3000/api/auth/getuser", {
+                const response = await fetch("https://inotebook-backend-gaurav-1.onrender.com/api/auth/getuser", {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

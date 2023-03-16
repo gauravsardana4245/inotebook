@@ -1,18 +1,25 @@
 {
-  "name": "inotebook-backend",
+  "name": "my-webpack-project",
   "version": "1.0.0",
-  "description": "\"iNotebook - Your Notebook in the cloud\"",
+  "description": "My webpack project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "./node_modules/.bin/netlify-lambda serve src",
-    "build": "./node_modules/.bin/netlify-lambda build src"
-
+    "start": "netlify dev",
+    "build": "webpack --mode=production --node-env=production",
+    "nodemon": "nodemon index.js",
+    "build:dev": "webpack --mode=development",
+    "build:prod": "webpack --mode=production --node-env=production",
+    "watch": "webpack --watch",
+    "serve": "webpack serve"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-preset": "^1.1.7",
+    "babel-preset-es": "^1.0.0",
     "bcryptjs": "^2.4.3",
+    "co": "^4.6.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-validator": "^6.14.2",
@@ -22,7 +29,30 @@
     "serverless-http": "^3.1.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.0",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "@webpack-cli/generators": "^3.0.1",
+    "autoprefixer": "^10.4.13",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-react-transform": "^3.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2020": "^1.0.2",
+    "babel-preset-latest": "^6.24.1",
+    "css-loader": "^6.7.3",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.7.2",
+    "netlify-cli": "^13.1.3",
     "nodemon": "^2.0.20",
+    "postcss": "^8.4.21",
+    "postcss-loader": "^7.0.2",
+    "prettier": "^2.8.1",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.76.1",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1",
     "webpack-node-externals": "^3.0.0"
   }
 }

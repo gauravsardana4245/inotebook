@@ -2,6 +2,7 @@ const express = require("express");
 const serverless = require("serverless-http");
 const connectToMongo = require("../db.js");
 
+
 // Create an instance of the Express app
 const app = express();
 
@@ -17,6 +18,8 @@ router.get("/", (req, res) => {
 
 // Use the router to handle requests to the `/.netlify/functions/api` path
 app.use(`/.netlify/functions/api`, router);
+
+console.log("Inside api.js");
 connectToMongo();
 
 // Export the app and the serverless function
