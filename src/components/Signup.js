@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import Spinner from './Spinner';
 
 const Signup = (props) => {
     const [credentials, setCredentials] = useState({ name: "", email: "", password: "", cpassword: "" });
@@ -62,6 +63,7 @@ const Signup = (props) => {
                     <input type="password" className="form-control" id="cpassword" name='cpassword' onChange={onChange} minLength={5} />
                 </div>
                 <button type="submit" className="btn btn-primary my-2" >Sign up</button>
+                {loading && <Spinner />}
                 {/* <div className='my-2'> Already have an account? <Link className='text-decoration-none' to="/login">Login</Link></div> */}
             </form>
         </div>

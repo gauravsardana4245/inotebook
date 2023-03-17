@@ -33,7 +33,7 @@ const Notes = (props) => {
 
 
 
-    }, [])
+    }, [getNotes, navigate, setName])
 
     const [note, setNote] = useState({ id: "", etitle: "", edescription: "", etag: "" })
 
