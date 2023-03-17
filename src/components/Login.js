@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from "react-router-dom";
-import Spinner from './Spinner';
 
 const Login = (props) => {
     const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -50,8 +49,6 @@ const Login = (props) => {
                     <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
                     <input type="password" className="form-control" id="password" name='password' onChange={onChange} />
                 </div>
-                <button type="submit" className="btn btn-primary" >Login</button>
-                {loading && <Spinner />}
                 <div className='my-2'> Doesn't have an account? <Link className='text-decoration-none' to="/signup">Click here</Link> to Sign up! </div>
             </form>
         </div>
