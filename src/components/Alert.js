@@ -1,5 +1,5 @@
 import React from 'react'
-import "/Users/gauravsardana/inotebook/src/Alertstyle.css";
+import "../Alertstyle.css";
 
 export default function Alert(props) {
 
